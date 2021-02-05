@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "ramyennapusa's Network Infrastructure "
+
+Resources:
+  devVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: "false"
+      EnableDnsHostnames: "false"
+      InstanceTenancy: default
+      Tags:
+        - Key: Owner
+          Value: ramyennapusa
+        - Key: BusinessUnit
+          Value: Infra
+  devPublicSubnet1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: devVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: Owner
+          Value: ramyennapusa
+        - Key: BusinessUnit
+          Value: Infra
+  devPublicSubnet1b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: devVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: Owner
+          Value: ramyennapusa
+        - Key: BusinessUnit
+          Value: Infra
+  devPrivateSubnet1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: devVPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: Owner
+          Value: ramyennapusa
+        - Key: BusinessUnit
+          Value: Infra
+  devPrivateSubnet1b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: devVPC
+      CidrBlock: 10.0.4.0/24
+      AvailabilityZone: "us-east-1b"
+      Tags:
+        - Key: Owner
+          Value: ramyennapusa
+        - Key: BusinessUnit
+          Value: Infra
+  devInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: foo
+          Value: bar
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: devVPC
+      InternetGatewayId:
+        Ref: devInternetGateway
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: devVPC
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: devVPC
